@@ -11,7 +11,7 @@
 <title>Shen Cinema 🎬</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Tokyo+Zoo&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 button,input,textarea,select{font-family:inherit;-webkit-appearance:none;appearance:none}
@@ -47,6 +47,11 @@ body{padding-bottom:2rem}
 .moon-phase-bar{display:flex;gap:3px;margin:.5rem 0}
 .mpb-seg{flex:1;height:6px;border-radius:3px;background:var(--bg4)}
 .mpb-seg.active{background:var(--v2)}
+
+.marquee-wrap{border:2px solid #f0f;box-shadow:0 0 12px #f0f,inset 0 0 12px rgba(255,0,255,.15);border-radius:14px;padding:1.5rem 1rem;background:rgba(0,0,0,.5);text-align:center}
+.now-playing{font-family:'Zen Tokyo Zoo','DM Sans',sans-serif;font-size:11px;letter-spacing:.3em;color:#ff6ec7;text-transform:uppercase;margin-bottom:1rem;text-shadow:0 0 8px #ff6ec7}
+.marquee-title{font-family:'Zen Tokyo Zoo','DM Sans',sans-serif;font-size:22px;line-height:1.6;color:#fff;text-shadow:0 0 5px #fff,0 0 10px #ff00ff,0 0 20px #ff00ff,0 0 40px #ff00ff,0 0 80px #ff00ff;animation:neonFlicker 3s infinite}
+@keyframes neonFlicker{0%,18%,22%,25%,53%,57%,100%{text-shadow:0 0 5px #fff,0 0 10px #ff00ff,0 0 20px #ff00ff,0 0 40px #ff00ff,0 0 80px #ff00ff;opacity:1}19%,24%,54%{text-shadow:none;opacity:.7}}
 </style>
 </head>
 <body>
@@ -65,6 +70,7 @@ body{padding-bottom:2rem}
   <button class="nbtn" onclick="sw('patterns',this)">🌀 Patterns</button>
   <button class="nbtn" onclick="sw('lunar',this)">🌕 Lunar</button>
   <button class="nbtn" onclick="sw('reference',this)">📖 TCM Ref</button>
+  <button class="nbtn" onclick="sw('xxx',this)">🎞️ Now Playing</button>
 </nav>
 
 <!-- RECORD -->
@@ -139,6 +145,18 @@ body{padding-bottom:2rem}
   <div class="slbl">TCM dream reference 📖</div>
   <div style="font-size:14px;color:var(--tx3);margin-bottom:.85rem;line-height:1.6">From the Huangdi Neijing and classical texts — organ states manifest in dreams.</div>
   <div id="tcm-dream-ref"></div>
+</div>
+
+
+<!-- NOW PLAYING (joke) -->
+<div class="sec" id="sec-xxx">
+  <div class="slbl">Now playing 🎞️</div>
+  <div style="font-size:14px;color:var(--tx3);margin-bottom:1rem;line-height:1.6">Tonight's feature presentation...</div>
+  <div class="marquee-wrap">
+    <div class="now-playing">◈ Now Playing ◈</div>
+    <div class="marquee-title">The Ex<br>That Got<br>Away 💋</div>
+  </div>
+  <div style="text-align:center;font-size:13px;color:var(--tx3);margin-top:1rem;font-style:italic;line-height:1.6">Rated R for Regret · Runtime: way too long<br>Sequel not recommended 🍿</div>
 </div>
 
 <script>
