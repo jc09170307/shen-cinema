@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Shen Cinema">
+<meta name="theme-color" content="#1e1b4b">
+<link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-512.png">
+<title>Shen Cinema 🎬</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+button,input,textarea,select{font-family:inherit;-webkit-appearance:none;appearance:none}
+:root{--v:#4f46e5;--v2:#818cf8;--v3:#c7d2fe;--t:#0d9488;--t2:#14b8a6;--g:#d97706;--g2:#fbbf24;--bg:#06040f;--bg2:#0d0b1a;--bg3:#14122a;--bg4:#1c1a38;--tx:#eef0ff;--tx2:#a5b4fc;--tx3:#5c5899;--bd:rgba(79,70,229,.2);--bd2:rgba(79,70,229,.08);--card:#0d0b1a;--hh:58px;}
+[data-theme="light"]{--bg:#f8f7ff;--bg2:#fff;--bg3:#eef2ff;--bg4:#e0e7ff;--tx:#1e1b4b;--tx2:#3730a3;--tx3:#6366f1;--bd:rgba(79,70,229,.2);--bd2:rgba(79,70,229,.08);--card:#fff;}
+html,body{background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;font-size:16px;min-height:100vh}
+body{padding-bottom:2rem}
+.hdr{height:var(--hh);padding:0 1rem;display:flex;align-items:center;justify-content:space-between;background:var(--bg);border-bottom:1px solid var(--bd2);position:sticky;top:0;z-index:200;backdrop-filter:blur(12px)}
+.nav-wrap{position:sticky;top:var(--hh);z-index:150;background:var(--bg);border-bottom:1px solid var(--bd2);display:flex;overflow-x:auto;scrollbar-width:none;padding:.45rem .75rem;gap:6px}
+.nav-wrap::-webkit-scrollbar{display:none}
+.nbtn{flex-shrink:0;background:var(--bg3);border:1px solid var(--bd);border-radius:100px;cursor:pointer;padding:6px 13px;color:var(--tx2);transition:all .2s;-webkit-tap-highlight-color:transparent;white-space:nowrap;font-size:13px;font-weight:600}
+.nbtn.active{background:var(--v);border-color:var(--v);color:#fff}
+.sec{display:none;padding:1rem;animation:fi .2s ease}.sec.active{display:block}
+@keyframes fi{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.slbl{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--v3);margin-bottom:.65rem;display:flex;align-items:center;gap:.4rem}
+.slbl::after{content:'';flex:1;height:1px;background:var(--bd)}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:.9rem 1rem;margin-bottom:.65rem}
+.btn{width:100%;padding:.75rem 1rem;border:none;border-radius:12px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;cursor:pointer;transition:all .2s;-webkit-tap-highlight-color:transparent}
+.bp{background:var(--v);color:#fff}.bp:active{transform:scale(.98)}
+.bg{background:var(--bg3);color:var(--tx2);border:1px solid var(--bd)}.bg:active{background:var(--bg4)}
+.inp{width:100%;background:var(--bg3);border:1px solid var(--bd);border-radius:12px;padding:.7rem .9rem;color:var(--tx);font-size:15px;transition:border-color .2s;resize:none}
+.inp:focus{outline:none;border-color:var(--v2)}.inp::placeholder{color:var(--tx3)}
+.ilbl{font-size:12px;font-weight:600;color:var(--tx3);margin-bottom:.35rem;display:block}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--v);color:#fff;padding:.5rem 1.1rem;border-radius:100px;font-size:13px;font-weight:600;opacity:0;transition:all .3s;pointer-events:none;white-space:nowrap;z-index:999}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.chip{display:inline-block;padding:4px 11px;border-radius:100px;font-size:12px;font-weight:600;background:var(--bg3);color:var(--tx3);border:1px solid var(--bd);cursor:pointer;margin:.2rem .2rem .2rem 0;transition:all .2s;-webkit-tap-highlight-color:transparent}
+.chip.sel{background:rgba(79,70,229,.2);color:var(--v3);border-color:var(--v)}
+.dream-card{background:var(--card);border:1px solid var(--bd);border-radius:14px;margin-bottom:.5rem;overflow:hidden}
+.dream-hdr{display:flex;align-items:center;justify-content:space-between;padding:.85rem 1rem;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.dream-body{display:none;padding:.75rem 1rem 1rem;border-top:1px solid var(--bd2)}
+.dream-body.open{display:block}
+.symbol-card{background:var(--bg3);border:1px solid var(--bd);border-radius:12px;padding:.75rem;margin-bottom:.4rem}
+.moon-phase-bar{display:flex;gap:3px;margin:.5rem 0}
+.mpb-seg{flex:1;height:6px;border-radius:3px;background:var(--bg4)}
+.mpb-seg.active{background:var(--v2)}
+</style>
+</head>
+<body>
+<div class="toast" id="toast"></div>
+<header class="hdr">
+  <div>
+    <div style="font-family:'DM Serif Display',serif;font-size:18px;color:var(--tx)">Shen Cinema 🎬</div>
+    <div style="font-size:9px;color:var(--v2);font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-top:1px">Dream Journal · Yin Records</div>
+  </div>
+  <button style="background:var(--bg3);border:1px solid var(--bd);border-radius:20px;padding:5px 12px;font-size:13px;cursor:pointer;color:var(--tx2)" id="theme-btn">☀️</button>
+</header>
+<nav class="nav-wrap">
+  <button class="nbtn active" onclick="sw('record',this)">🎬 Record</button>
+  <button class="nbtn" onclick="sw('archive',this)">📚 Archive</button>
+  <button class="nbtn" onclick="sw('symbols',this)">🔮 Symbols</button>
+  <button class="nbtn" onclick="sw('patterns',this)">🌀 Patterns</button>
+  <button class="nbtn" onclick="sw('lunar',this)">🌕 Lunar</button>
+  <button class="nbtn" onclick="sw('reference',this)">📖 TCM Ref</button>
+</nav>
+
+<!-- RECORD -->
+<div class="sec active" id="sec-record">
+  <div class="slbl">Tonight's dream</div>
+  <div class="card">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-bottom:.65rem">
+      <div><label class="ilbl">Date (night of)</label><input type="date" class="inp" id="d-date"></div>
+      <div><label class="ilbl">Approx. time</label><input type="time" class="inp" id="d-time" value="03:00"></div>
+    </div>
+    <label class="ilbl">Dream narrative</label>
+    <textarea class="inp" id="d-narrative" placeholder="Write freely. Stream of consciousness. Include everything — even fragments." style="min-height:160px;margin-bottom:.65rem;line-height:1.75;caret-color:var(--v2)"></textarea>
+    <label class="ilbl">Dominant emotion(s)</label>
+    <div style="display:flex;flex-wrap:wrap;margin-bottom:.65rem" id="emotion-chips"></div>
+    <label class="ilbl">Key symbols (tap to tag)</label>
+    <div style="display:flex;flex-wrap:wrap;margin-bottom:.65rem" id="symbol-chips"></div>
+    <label class="ilbl">Custom symbols (comma separated)</label>
+    <input type="text" class="inp" id="d-custom-symbols" placeholder="e.g. red door, grandmother, ocean…" style="margin-bottom:.65rem">
+    <label class="ilbl">Vividness (1–5)</label>
+    <div style="display:flex;gap:.4rem;margin-bottom:.65rem" id="vivid-btns">
+      <button class="btn bg" style="flex:1;font-size:16px;padding:.45rem" onclick="setVivid(1)">1</button>
+      <button class="btn bg" style="flex:1;font-size:16px;padding:.45rem" onclick="setVivid(2)">2</button>
+      <button class="btn bg" style="flex:1;font-size:16px;padding:.45rem" onclick="setVivid(3)">3</button>
+      <button class="btn bg" style="flex:1;font-size:16px;padding:.45rem" onclick="setVivid(4)">4</button>
+      <button class="btn bg" style="flex:1;font-size:16px;padding:.45rem" onclick="setVivid(5)">5</button>
+    </div>
+    <label class="ilbl">Lucidity? Recurring? Nighttime waking?</label>
+    <div style="display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.65rem">
+      <button class="chip" id="lucid-chip" onclick="this.classList.toggle('sel')">Lucid</button>
+      <button class="chip" id="recur-chip" onclick="this.classList.toggle('sel')">Recurring</button>
+      <button class="chip" id="wake-chip" onclick="this.classList.toggle('sel')">Woke me up</button>
+      <button class="chip" id="forgot-chip" onclick="this.classList.toggle('sel')">Mostly forgotten</button>
+    </div>
+    <label class="ilbl">TCM interpretation (optional)</label>
+    <textarea class="inp" id="d-tcm" placeholder="Which organ might be speaking? What Qi is moving? Any clinical significance?" style="min-height:70px;margin-bottom:.75rem"></textarea>
+    <button class="btn bp" onclick="saveDream()">Save dream</button>
+  </div>
+</div>
+
+<!-- ARCHIVE -->
+<div class="sec" id="sec-archive">
+  <div class="slbl">Dream archive</div>
+  <div style="display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.75rem" id="archive-filters"></div>
+  <div id="dream-archive"><div class="card" style="text-align:center;color:var(--tx3);font-size:14px">No dreams recorded yet.</div></div>
+</div>
+
+<!-- SYMBOLS -->
+<div class="sec" id="sec-symbols">
+  <div class="slbl">Symbol reference 🔮</div>
+  <div style="font-size:14px;color:var(--tx3);margin-bottom:.85rem;line-height:1.6">TCM dream interpretation maps symbols to organ systems. These are classical correlations, not universal rules.</div>
+  <div id="symbol-ref"></div>
+</div>
+
+<!-- PATTERNS -->
+<div class="sec" id="sec-patterns">
+  <div class="slbl">Dream patterns 🌀</div>
+  <div style="font-size:14px;color:var(--tx3);margin-bottom:.85rem;line-height:1.6">Recurring themes and symbols across your dreams.</div>
+  <div id="pattern-analysis"></div>
+</div>
+
+<!-- LUNAR -->
+<div class="sec" id="sec-lunar">
+  <div class="slbl">Lunar correlation 🌕</div>
+  <div style="font-size:14px;color:var(--tx3);margin-bottom:.85rem;line-height:1.6">TCM tracks dream intensity with lunar phases. The full moon activates the Shen — dreams become more vivid and disturbing.</div>
+  <div class="card" id="lunar-now"></div>
+  <div class="slbl" style="margin-top:.5rem">Dream intensity by lunar phase</div>
+  <div class="card" id="lunar-chart"></div>
+</div>
+
+<!-- TCM REFERENCE -->
+<div class="sec" id="sec-reference">
+  <div class="slbl">TCM dream reference 📖</div>
+  <div style="font-size:14px;color:var(--tx3);margin-bottom:.85rem;line-height:1.6">From the Huangdi Neijing and classical texts — organ states manifest in dreams.</div>
+  <div id="tcm-dream-ref"></div>
+</div>
+
+<script>
+(function(){var s=localStorage.getItem('shen-theme');if(s)document.documentElement.setAttribute('data-theme',s);else document.documentElement.setAttribute('data-theme',window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');})();
+document.getElementById('theme-btn').addEventListener('click',function(){var c=document.documentElement.getAttribute('data-theme'),n=c==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',n);localStorage.setItem('shen-theme',n);this.textContent=n==='dark'?'☀️':'🌙';});
+document.getElementById('theme-btn').textContent=document.documentElement.getAttribute('data-theme')==='dark'?'☀️':'🌙';
+function toast(m){var t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200);}
+function sw(id,btn){document.querySelectorAll('.sec').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.nbtn').forEach(b=>b.classList.remove('active'));document.getElementById('sec-'+id).classList.add('active');if(btn)btn.classList.add('active');if(id==='archive')renderArchive();if(id==='patterns')renderPatterns();if(id==='lunar')renderLunar();if(id==='symbols')renderSymbols();if(id==='reference')renderRef();}
+
+const EMOTIONS=['😨 Fear','😢 Grief','😤 Anger','😊 Joy','🌀 Confusion','😰 Anxiety','💜 Love','🌊 Peace','🔥 Urgency','😐 Neutral','✨ Wonder','😔 Sadness'];
+const SYMBOL_TAGS=['Water 🌊','Fire 🔥','Flying ✈️','Falling 🪂','Running 🏃','Being chased','Teeth falling','Death/dying','Animals','People (familiar)','People (strangers)','House/home','School/test','Forest/nature','Ocean/sea','Mountains','Darkness','Light','Blood','Transformation','Unable to move','Lost/searching','Violence','Healing/medicine'];
+const SYMBOL_MEANINGS=[
+  {sym:'Water 🌊',organ:'Kidney',meaning:'KD Qi — fear, ancestral patterns, depth of the unconscious. Turbulent water = KD imbalance. Clear water = KD Yin nourished.',classical:'The Kidney opens to the ear; its Qi governs water. Dreams of drowning or flooding often accompany KD Yang deficiency.'},
+  {sym:'Fire 🔥',organ:'Heart',meaning:'Heart Fire or HT Yin deficiency. Intense, frightening fire = HT excess. Warm, comforting fire = HT Qi balanced.',classical:'When Heart Qi is excessive, one dreams of fire and being burned. When deficient, one dreams of smoke.'},
+  {sym:'Flying ✈️',organ:'Liver',meaning:'LV Yang Rising or Wood Qi in excess. The Liver energy rises; dreams of flying, soaring, elevation.',classical:'When Liver Qi is excess, one dreams of anger. When the Qi rises, one may dream of lying on trees or flying.'},
+  {sym:'Falling 🪂',organ:'Lung/Spleen',meaning:'LU Qi descending too quickly, or SP Qi unable to hold. Loss of grounding. Metal-Water imbalance.',classical:'When Lung Qi is deficient, one dreams of flying and being afraid; when grief accumulates, dreams of descending.'},
+  {sym:'Being chased',organ:'Kidney/Bladder',meaning:'Fear pattern — KD deficiency. The thing chasing you may represent what you are running from in waking life.',classical:'When Kidney Qi is deficient, dreams of swimming in deep water and being frightened.'},
+  {sym:'Teeth falling',organ:'Kidney',meaning:'Classic KD Jing deficiency dream. The teeth are governed by the Kidneys. Tooth loss in dreams = essence depleted.',classical:'The teeth are the excess of bone; bone is governed by the Kidneys. Dreaming of tooth loss signals Kidney Jing depletion.'},
+  {sym:'Animals',organ:'Liver/Gallbladder',meaning:'GB governs decision and courage. Large/predatory animals = Wood excess or repressed anger. Small animals = timidity.',classical:'When GB Qi is excess, one fights with others; when deficient, one flees and hides.'},
+  {sym:'Forest/nature',organ:'Liver',meaning:'Wood element — LV/GB. Peaceful forest = LV Qi flowing smoothly. Dark or threatening forest = LV constraint.',classical:''},
+  {sym:'Blood',organ:'Liver/Heart',meaning:'LV stores Blood; HT governs Blood. Bloody dreams often accompany Blood stagnation or HT/LV imbalance.',classical:'When Liver is excessive, one is angry and dreams of destroying things.'},
+  {sym:'Transformation',organ:'Spleen/Triple Warmer',meaning:'SP transforms and transports; TW distributes. Dreams of transformation reflect change in Qi distribution.',classical:''},
+  {sym:'Death/dying',organ:'Lung/Kidney',meaning:'Metal and Water — LU and KD. Grief unprocessed (Metal) or deep fear (Water). Also spiritual transition dreams.',classical:'When Lung is deficient, one dreams of white objects and of weeping; when in excess, dreams of war.'},
+  {sym:'House/home',organ:'Heart',meaning:'The Heart is the sovereign — the home of the Shen. House condition = Shen state.',classical:'The Heart is the palace of the spirit. Dreams of your home reflect the state of your Shen.'},
+];
+
+const MOON_PHASES=[
+  {n:'New Moon',e:'🌑',d:0},{n:'Waxing Crescent',e:'🌒',d:3},{n:'First Quarter',e:'🌓',d:7},
+  {n:'Waxing Gibbous',e:'🌔',d:10},{n:'Full Moon',e:'🌕',d:14},{n:'Waning Gibbous',e:'🌖',d:17},
+  {n:'Last Quarter',e:'🌗',d:21},{n:'Waning Crescent',e:'🌘',d:25}
+];
+
+const TCM_DREAM_REF=[
+  {organ:'Heart 心',signs:'Palpitations, anxiety, insomnia → dreams of fire, red landscapes, laughing uncontrollably, joy turning to fear',tx:'Calm Shen · Nourish HT Blood · HT-7, PC-6, CV-17'},
+  {organ:'Liver 肝',signs:'Irritability, eye strain, menstrual issues → dreams of forests, flying, anger, fighting',tx:'Move LV Qi · LV-3, GB-34, PC-6 · Xiao Yao San'},
+  {organ:'Kidney 腎',signs:'Lower back pain, fear, tinnitus → dreams of water, drowning, teeth falling, being chased, sexual dreams',tx:'Tonify KD · KD-3, BL-23, CV-4 · Liu Wei Di Huang Wan'},
+  {organ:'Lung 肺',signs:'Grief, respiratory issues, skin → dreams of white, weeping, war, descending, flying birds',tx:'Tonify LU Qi · LU-9, LU-7, ST-36 · warmth and pungent foods'},
+  {organ:'Spleen 脾',signs:'Worry, fatigue, digestive issues → dreams of singing, heavy body, unable to lift limbs, food-related',tx:'Tonify SP · ST-36, SP-3, CV-12 · warm cooked foods'},
+  {organ:'Gallbladder 膽',signs:'Indecision, timidity → dreams of fighting and losing, fleeing, hiding under tables',tx:'Tonify GB · GB-40, GB-34 · decisiveness practice'},
+  {organ:'Stomach 胃',signs:'Irregular eating, ST Heat → dreams of asking for food, giving food, eating unusual things',tx:'Harmonize ST · ST-36, CV-12, PC-6 · regular meal times'},
+  {organ:'Bladder 膀胱',signs:'Urinary issues, back tension → dreams of long journeys, being lost, unable to find a bathroom',tx:'Tonify BL/KD · BL-23, BL-40, KD-3'},
+];
+
+var selEmotions=new Set(),selSymbols=new Set(),selVivid=0;
+
+document.getElementById('d-date').value=new Date().toISOString().slice(0,10);
+document.getElementById('emotion-chips').innerHTML=EMOTIONS.map(e=>`<span class="chip" onclick="togE('${e}',this)">${e}</span>`).join('');
+document.getElementById('symbol-chips').innerHTML=SYMBOL_TAGS.map(s=>`<span class="chip" onclick="togS('${s}',this)">${s}</span>`).join('');
+
+function togE(e,btn){if(selEmotions.has(e))selEmotions.delete(e);else selEmotions.add(e);btn.classList.toggle('sel');}
+function togS(s,btn){if(selSymbols.has(s))selSymbols.delete(s);else selSymbols.add(s);btn.classList.toggle('sel');}
+function setVivid(v){selVivid=v;document.querySelectorAll('#vivid-btns .btn').forEach((b,i)=>{var s=(i+1)<=v;b.style.background=s?'var(--v)':'';b.style.color=s?'#fff':'';});}
+
+function getMoonPhase(){
+  var knm=new Date('2000-01-06T18:14:00Z');
+  var phase=(((new Date()-knm)/(1000*60*60*24))%29.53+29.53)%29.53;
+  return {phase,mp:MOON_PHASES.reduce((b,p)=>Math.abs(phase-p.d)<Math.abs(phase-b.d)?p:b,MOON_PHASES[0])};
+}
+
+function saveDream(){
+  var narrative=document.getElementById('d-narrative').value.trim();
+  if(!narrative&&!document.getElementById('forgot-chip').classList.contains('sel')){toast('Add dream narrative or mark as forgotten');return;}
+  var {phase,mp}=getMoonPhase();
+  var custom=document.getElementById('d-custom-symbols').value.split(',').map(s=>s.trim()).filter(Boolean);
+  var dreams=JSON.parse(localStorage.getItem('shen-dreams')||'[]');
+  dreams.unshift({date:document.getElementById('d-date').value,time:document.getElementById('d-time').value,narrative,emotions:Array.from(selEmotions),symbols:[...Array.from(selSymbols),...custom],vivid:selVivid,lucid:document.getElementById('lucid-chip').classList.contains('sel'),recurring:document.getElementById('recur-chip').classList.contains('sel'),wokeUp:document.getElementById('wake-chip').classList.contains('sel'),forgotten:document.getElementById('forgot-chip').classList.contains('sel'),tcm:document.getElementById('d-tcm').value,moonPhase:mp.n,moonEmoji:mp.e,lunarDay:Math.floor(phase),ts:Date.now()});
+  localStorage.setItem('shen-dreams',JSON.stringify(dreams.slice(0,500)));
+  document.getElementById('d-narrative').value='';document.getElementById('d-tcm').value='';document.getElementById('d-custom-symbols').value='';
+  selEmotions.clear();selSymbols.clear();selVivid=0;
+  document.querySelectorAll('#emotion-chips .chip, #symbol-chips .chip').forEach(c=>c.classList.remove('sel'));
+  document.querySelectorAll('#vivid-btns .btn').forEach(b=>{b.style.background='';b.style.color='';});
+  ['lucid-chip','recur-chip','wake-chip','forgot-chip'].forEach(id=>document.getElementById(id).classList.remove('sel'));
+  toast('Dream recorded 🎬');
+}
+
+function renderArchive(){
+  var dreams=JSON.parse(localStorage.getItem('shen-dreams')||'[]');var el=document.getElementById('dream-archive');
+  if(!dreams.length){el.innerHTML='<div class="card" style="text-align:center;color:var(--tx3);font-size:14px">No dreams recorded yet.</div>';return;}
+  el.innerHTML=dreams.map((d,i)=>`<div class="dream-card"><div class="dream-hdr" onclick="document.getElementById('db${i}').classList.toggle('open')">
+    <div style="font-size:22px">${d.moonEmoji||'🌙'}</div>
+    <div style="flex:1;margin:0 .65rem">
+      <div style="font-size:14px;font-weight:700;color:var(--tx)">${d.date}${d.lucid?' · ✨ Lucid':''}${d.recurring?' · 🔄 Recurring':''}</div>
+      <div style="font-size:12px;color:var(--tx3);margin-top:2px">${d.moonPhase||''}${d.vivid?' · '+'⭐'.repeat(d.vivid):''}</div>
+      <div style="font-size:12px;color:var(--tx2);margin-top:3px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;max-width:220px">${d.forgotten?'[Mostly forgotten]':d.narrative.slice(0,80)+'…'}</div>
+    </div>
+    <span style="color:var(--tx3);font-size:14px">›</span>
+  </div>
+  <div class="dream-body" id="db${i}">
+    ${!d.forgotten?`<div style="font-size:14px;color:var(--tx2);line-height:1.75;margin-bottom:.65rem">${d.narrative.replace(/\n/g,'<br>')}</div>`:''}
+    ${d.emotions.length?`<div style="font-size:11px;font-weight:700;color:var(--v3);text-transform:uppercase;margin-bottom:.35rem">Emotions</div><div style="margin-bottom:.5rem">${d.emotions.map(e=>`<span class="chip">${e}</span>`).join('')}</div>`:''}
+    ${d.symbols.length?`<div style="font-size:11px;font-weight:700;color:var(--t2);text-transform:uppercase;margin-bottom:.35rem">Symbols</div><div style="margin-bottom:.5rem">${d.symbols.map(s=>`<span class="chip ct">${s}</span>`).join('')}</div>`:''}
+    ${d.tcm?`<div style="background:var(--bg3);border-radius:10px;padding:.65rem .75rem;font-size:13px;color:var(--tx2);line-height:1.65;font-style:italic">🔮 ${d.tcm}</div>`:''}
+  </div></div>`).join('');
+}
+
+function renderSymbols(){
+  document.getElementById('symbol-ref').innerHTML=SYMBOL_MEANINGS.map(s=>`<div class="symbol-card">
+    <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.4rem"><div style="font-size:20px">${s.sym.split(' ')[s.sym.split(' ').length-1]}</div><div><div style="font-size:15px;font-weight:700;color:var(--tx)">${s.sym}</div><div style="font-size:12px;color:var(--v3);font-weight:600">${s.organ}</div></div></div>
+    <div style="font-size:13px;color:var(--tx2);line-height:1.65;margin-bottom:${s.classical?'.4rem':'0'}">${s.meaning}</div>
+    ${s.classical?`<div style="font-size:12px;color:var(--tx3);font-style:italic;border-top:1px solid var(--bd2);padding-top:.4rem">${s.classical}</div>`:''}
+  </div>`).join('');
+}
+
+function renderPatterns(){
+  var dreams=JSON.parse(localStorage.getItem('shen-dreams')||'[]');var el=document.getElementById('pattern-analysis');
+  if(dreams.length<2){el.innerHTML='<div class="card" style="text-align:center;color:var(--tx3);font-size:14px">Record at least 2 dreams to see patterns.</div>';return;}
+  var symCount={},emoCount={},moonCount={};
+  dreams.forEach(d=>{
+    d.symbols.forEach(s=>{symCount[s]=(symCount[s]||0)+1;});
+    d.emotions.forEach(e=>{emoCount[e]=(emoCount[e]||0)+1;});
+    if(d.moonPhase)moonCount[d.moonPhase]=(moonCount[d.moonPhase]||0)+1;
+  });
+  var topSyms=Object.entries(symCount).sort((a,b)=>b[1]-a[1]).slice(0,8);
+  var topEmos=Object.entries(emoCount).sort((a,b)=>b[1]-a[1]).slice(0,6);
+  var recurringCount=dreams.filter(d=>d.recurring).length;
+  var lucidCount=dreams.filter(d=>d.lucid).length;
+  el.innerHTML=`<div class="card"><div style="font-size:11px;font-weight:700;color:var(--v3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:.65rem">Overview · ${dreams.length} dreams</div>
+  <div style="display:flex;gap:.5rem;margin-bottom:.75rem">
+    <div style="background:var(--bg3);border-radius:10px;padding:.6rem .75rem;flex:1;text-align:center"><div style="font-family:'DM Serif Display',serif;font-size:24px;color:var(--v2)">${recurringCount}</div><div style="font-size:10px;font-weight:700;color:var(--tx3);text-transform:uppercase">Recurring</div></div>
+    <div style="background:var(--bg3);border-radius:10px;padding:.6rem .75rem;flex:1;text-align:center"><div style="font-family:'DM Serif Display',serif;font-size:24px;color:var(--v2)">${lucidCount}</div><div style="font-size:10px;font-weight:700;color:var(--tx3);text-transform:uppercase">Lucid</div></div>
+    <div style="background:var(--bg3);border-radius:10px;padding:.6rem .75rem;flex:1;text-align:center"><div style="font-family:'DM Serif Display',serif;font-size:24px;color:var(--v2)">${Math.round(dreams.reduce((a,d)=>a+d.vivid,0)/dreams.length*10)/10||'—'}</div><div style="font-size:10px;font-weight:700;color:var(--tx3);text-transform:uppercase">Avg vivid</div></div>
+  </div>
+  ${topSyms.length?`<div style="font-size:11px;font-weight:700;color:var(--t2);text-transform:uppercase;letter-spacing:.07em;margin-bottom:.35rem">Top symbols</div><div style="display:flex;flex-wrap:wrap;margin-bottom:.65rem">${topSyms.map(([s,c])=>`<span class="chip" style="margin:.2rem">${s} <b style="color:var(--v2)">${c}</b></span>`).join('')}</div>`:''}
+  ${topEmos.length?`<div style="font-size:11px;font-weight:700;color:var(--g2);text-transform:uppercase;letter-spacing:.07em;margin-bottom:.35rem">Top emotions</div><div style="display:flex;flex-wrap:wrap">${topEmos.map(([e,c])=>`<span class="chip" style="margin:.2rem">${e} <b style="color:var(--v2)">${c}</b></span>`).join('')}</div>`:''}
+  </div>`;
+}
+
+function renderLunar(){
+  var {phase,mp}=getMoonPhase();
+  document.getElementById('lunar-now').innerHTML=`<div style="text-align:center;padding:.5rem 0">
+    <div style="font-size:56px">${mp.e}</div>
+    <div style="font-family:'DM Serif Display',serif;font-size:20px;color:var(--tx);margin:.35rem 0">${mp.n}</div>
+    <div style="font-size:13px;color:var(--tx3)">Day ${Math.floor(phase)} of lunar cycle</div>
+    <div style="font-size:13px;color:var(--tx2);line-height:1.6;margin-top:.6rem">${mp.n==='Full Moon'?'🔴 Full Moon — Shen is most activated. Dreams may be vivid, intense, or disturbing. Monitor emotionally.':mp.n==='New Moon'?'🌑 New Moon — Quiet Yin. Dreams may be sparse or deeply inward.':'Qi is '+(phase<14?'building':'releasing')+' with the '+(phase<14?'waxing':'waning')+' moon.'}</div>
+  </div>`;
+  var dreams=JSON.parse(localStorage.getItem('shen-dreams')||'[]');
+  var moonVivid={};dreams.forEach(d=>{if(d.moonPhase&&d.vivid){if(!moonVivid[d.moonPhase])moonVivid[d.moonPhase]={total:0,count:0};moonVivid[d.moonPhase].total+=d.vivid;moonVivid[d.moonPhase].count++;}});
+  var el=document.getElementById('lunar-chart');
+  if(!Object.keys(moonVivid).length){el.innerHTML='<div style="text-align:center;color:var(--tx3);font-size:14px">Record more dreams to see lunar correlations.</div>';return;}
+  el.innerHTML=MOON_PHASES.map(p=>{var d=moonVivid[p.n];var avg=d?Math.round(d.total/d.count*10)/10:0;return `<div style="display:flex;align-items:center;gap:.65rem;padding:.4rem 0;border-bottom:1px solid var(--bd2)"><div style="font-size:18px;width:28px">${p.e}</div><div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--tx2)">${p.n}</div></div><div style="font-size:13px;font-weight:700;color:${avg>=4?'var(--v2)':avg>=3?'var(--g2)':'var(--tx3)'}">${d?avg+'/5 ('+d.count+'d)':'—'}</div></div>`;}).join('');
+}
+
+function renderRef(){
+  document.getElementById('tcm-dream-ref').innerHTML=TCM_DREAM_REF.map(r=>`<div class="card" style="margin-bottom:.5rem">
+    <div style="font-size:16px;font-weight:700;color:var(--tx);margin-bottom:.35rem">${r.organ}</div>
+    <div style="font-size:13px;color:var(--tx2);line-height:1.65;margin-bottom:.5rem">${r.signs}</div>
+    <div style="background:var(--bg3);border-radius:8px;padding:.5rem .65rem;font-size:13px;color:var(--t2)">→ ${r.tx}</div>
+  </div>`).join('');
+}
+
+renderRef();
+if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('/shen-cinema/sw.js').catch(e=>console.log(e)));
+</script>
+</body>
+</html>
